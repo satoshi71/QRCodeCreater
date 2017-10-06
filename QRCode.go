@@ -25,11 +25,8 @@ func main() {
 	getConf()
 	//QRコードにする文字のリストを読み込む
 	getList()
-
+	//QRコード生成 boombuler/barcodeパッケージ使用
 	createCode()
-
-	//fmt.Println("Filename: " + conf.ListFile)
-	fmt.Println(len(codeList))
 }
 
 func getConf(){
