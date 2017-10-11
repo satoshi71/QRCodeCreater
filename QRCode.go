@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"bufio"
 	"encoding/xml"
+    "runtime"
 	"github.com/boombuler/barcode"
 	"github.com/boombuler/barcode/qr"
 )
@@ -30,7 +31,15 @@ func main() {
 }
 
 func getConf(){
-	data, _ := ioutil.ReadFile("conf.xml")
+	p, _ := os.Getwd()
+	fmt.Println(p)
+	confname := ""
+	if runtime.GOOS == "windows" {
+        confname = p +"\\conf.xml"
+    }else{
+		confname = p +"/conf.xml"
+	}
+	data, _ := ioutil.ReadFile(confname)
 	err := xml.Unmarshal(data, &conf)
 	if err != nil { panic(err) }
 }
@@ -42,7 +51,6 @@ func getList() {
 
 	scanner := bufio.NewScanner(fp)
 	for scanner.Scan() {
-		//fmt.Println(scanner.Text())
 		codeList = append(codeList, scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
